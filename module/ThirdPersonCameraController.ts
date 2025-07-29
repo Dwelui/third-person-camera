@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export class ThirdPersonCameraController {
     #player: THREE.Object3D;
-    #camera: THREE.Camera;
+    #camera: THREE.PerspectiveCamera;
 
     constructor(
         player: THREE.Object3D
@@ -13,5 +13,5 @@ export class ThirdPersonCameraController {
         this.#camera.position.z = 5;
     }
 
-    getCamera(): THREE.Camera { return this.#camera; }
+    getCamera(): THREE.PerspectiveCamera { return this.#camera; }
 }
