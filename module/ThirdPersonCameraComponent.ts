@@ -1,4 +1,4 @@
-import html from './ThirdPersonCameraComponentTemplate.html?raw';
+import html from './resources/ThirdPersonCameraComponentTemplate.html?raw';
 
 export class ThirdPersonCameraComponent extends HTMLElement {
     constructor() {
