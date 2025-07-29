@@ -6,13 +6,17 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foreverward</title>
-</head>
-
-<body class="h-screen">
-    <div id="app" class="size-full absolute pointer-events-none"></div>
-    <canvas id="main-canvas" class="size-full"></canvas>
 
     <script type="module" src="src/main.ts"></script>
+</head>
+
+<body>
+    <div class="debug-container">
+        <third-person-camera-component></third-person-camera-component>
+    </div>
+
+    <canvas id="main-canvas"></canvas>
+
 </body>
 
 </html>
