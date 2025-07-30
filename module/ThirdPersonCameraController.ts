@@ -7,7 +7,8 @@ export class ThirdPersonCameraController {
     #cameraPivot: THREE.Object3D;
     #cameraPivotOffset: THREE.Vector3;
     #attached: boolean = false;
-    #playerYawEuler: THREE.Euler = new THREE.Euler(0, 0, 0, 'YXZ');
+    #cameraPivotPitch: number = 0;
+    #playerYaw: number = 0;
     #sensitivity: number = 50;
     #handleInputBound: (e: MouseEvent) => void;
 
@@ -27,7 +28,6 @@ export class ThirdPersonCameraController {
         this.#cameraPivot = new THREE.Object3D();
         this.#cameraPivot.position.copy(this.#cameraPivotOffset);
 
-        //this.#camera.position.set(...this.#cameraOffset.toArray());
         this.#cameraPivot.add(this.#camera);
         this.#player.add(this.#cameraPivot);
     }
@@ -53,16 +53,15 @@ export class ThirdPersonCameraController {
     }
 
     handleInput(e: MouseEvent): void {
-        // Swapped x and y.
-        this.#playerYawEuler.y -= e.movementX * Math.pow(this.#sensitivity, 2) * 0.000001;
-        this.#playerYawEuler.x -= e.movementY * Math.pow(this.#sensitivity, 2) * 0.000001;
+        this.#cameraPivotPitch -= e.movementY * this.#sensitivity * 0.0001;
+        this.#playerYaw -= e.movementX * this.#sensitivity * 0.0001;
 
-        if (this.#playerYawEuler.x > Math.PI / 2) {
-            this.#playerYawEuler.x = Math.PI / 2;
+        if (this.#cameraPivotPitch > Math.PI / 2) {
+            this.#cameraPivotPitch = Math.PI / 2;
         }
 
-        if (this.#playerYawEuler.x < -Math.PI / 2) {
-            this.#playerYawEuler.x = -Math.PI / 2;
+        if (this.#cameraPivotPitch < -Math.PI / 2) {
+            this.#cameraPivotPitch = -Math.PI / 2;
         }
     }
 
@@ -84,12 +83,10 @@ export class ThirdPersonCameraController {
      * Updates camera using saved data.
      * Should usually called during game ticks.
      */
-    update() {
+    update(deltaTime: number) {
         if (!this.#attached) return;
 
-        // INFO: might need to seperate yaw and pitch.
-        // yaw - should turn player.
-        // pitch - should pitch camera pivot.
-        this.#player.setRotationFromEuler(this.#playerYawEuler);
+        this.#player.rotation.y = this.#playerYaw;
+        this.#cameraPivot.rotation.x = this.#cameraPivotPitch;
     }
 }

@@ -57,13 +57,17 @@ function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer): boolean {
 }
 
 const camera = cameraController.getCamera();
-function animate(time: number) {
-    time *= 0.001;
+let previousTime = 0;
+function animate(currentTime: number) {
+    currentTime *= 0.001;
 
-    cube.rotation.x = time;
-    cube.rotation.y = time;
+    const deltaTime = currentTime - previousTime;
+    previousTime = currentTime;
 
-    cameraController.update();
+    cube.rotation.x = currentTime;
+    cube.rotation.y = currentTime;
+
+    cameraController.update(deltaTime);
 
     if (resizeRendererToDisplaySize(renderer)) {
         camera.aspect = canvas!.clientWidth / canvas!.clientHeight;
